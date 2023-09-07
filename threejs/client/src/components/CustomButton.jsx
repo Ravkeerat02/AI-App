@@ -1,5 +1,5 @@
 // import React from "react";
-import React from "react"; // Import React if it's needed in your component
+ // Import React if it's needed in your component
 import { useSnapshot } from "valtio";
 import state from "../store";
 
