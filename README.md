@@ -34,7 +34,7 @@ To get started with this application, follow these steps:
 
 ```bash
 git clone https://github.com/Ravkeerat02/AI-App
-Navigate to the project directory:
+
 ```
 
 2. Navigate to the project directory:
