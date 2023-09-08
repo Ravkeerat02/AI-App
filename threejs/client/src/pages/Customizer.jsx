@@ -4,7 +4,6 @@ import { useSnapshot } from "valtio";
 
 import config from "../config/config";
 import state from "../store";
-// import Tab from "./Tab";
 import { download } from "../assets";
 import { downloadCanvasToImage, reader } from "../config/helpers";
 import { EditorTabs, FilterTabs, DecalTypes } from "../config/constants";
@@ -16,32 +15,85 @@ import {
   ColorPicker,
   Tab,
 } from "../components";
-// predefined motion
+
 import { fadeAnimation, slideAnimation } from "../config/motion";
 
 const Customizer = () => {
   const snap = useSnapshot(state);
   const [file, setFile] = useState("");
-  const [prompt, setPrompt] = useState("");
-  const [generatingImg, setGeneratingImg] = useState(false);
   const [activeEditorTab, setActiveEditorTab] = useState("");
   const [activeFilterTab, setActiveFilterTab] = useState({
     logoShirt: true,
     stylistShirt: false,
   });
 
-  // show tab content dependeing on the tab
   const generateTabContent = () => {
     switch (activeEditorTab) {
       case "colorPicker":
         return <ColorPicker />;
       case "filePicker":
-        return <FilePicker />;
+        return <FilePicker file={file} setFile={setFile} readFile={readFile} />;
       case "aipicker":
-        return <AIPicker />;
+        return (
+          <AIPicker
+            prompt={prompt}
+            setPrompt={prompt}
+            generatingImg={generatingImg}
+            handleSubmit={handleSubmit}
+          />
+        );
       default:
         return null;
     }
+  };
+
+  const handleSubmit = async (type) => {
+    if (!prompt) return alert("Please enter a prompt");
+
+    try {
+      // Set the 'generatingImg' state to true
+    } catch (error) {
+      alert("Please enter a valid prompt");
+    } finally {
+      setGeneratingImg(false);
+      setActiveEditorTab("");
+    }
+  };
+
+  const handleDecals = (type, result) => {
+    const decalType = DecalTypes[type];
+    state[decalType.stateProperty] = result;
+    if (!activeFilterTab[decalType.filterTab]) {
+      handleActiveFilterTab(decalType.filterTab);
+    }
+  };
+
+  const handleActiveFilterTab = (tabName) => {
+    switch (tabName) {
+      case "logoShirt":
+        state.isLogoTexture = !activeFilterTab[tabName];
+        break;
+      case "stylishShirt":
+        state.isFullTexture = !activeFilterTab[tabName];
+        break;
+      default:
+        state.isFullTexture = true;
+        state.isLogoTexture = false;
+    }
+
+    setActiveFilterTab((prevState) => {
+      return {
+        ...prevState,
+        [tabName]: activeFilterTab[tabName],
+      };
+    });
+  };
+
+  const readFile = (type) => {
+    reader(file).then((result) => {
+      handleDecals(type, result);
+      setActiveEditorTab("");
+    });
   };
 
   return (
@@ -53,7 +105,6 @@ const Customizer = () => {
             className="absolute top-0 left-0 z-0"
             {...slideAnimation("left")}
           >
-            {/* refers to the slide animation - refers to the side panel*/}
             <div className="flex items-center min-h-screen">
               <div className="editortabs-container tabs">
                 {EditorTabs.map((tab) => (
@@ -67,7 +118,6 @@ const Customizer = () => {
               </div>
             </div>
           </motion.div>
-          {/* back btn  */}
           <motion.div
             className="absolute z-10 top-5 right-5"
             {...fadeAnimation}
@@ -79,20 +129,19 @@ const Customizer = () => {
               customStyles="w-fit px-4 py-2.5 font-bold text-sm"
             />
           </motion.div>
-
           <motion.div
             className="filtertabs-container"
             {...slideAnimation("up")}
           >
-            {FilterTabs.map((tab) => {
+            {FilterTabs.map((tab) => (
               <Tab
                 key={tab.name}
                 tab={tab}
                 isFilterTab
-                isActivetab=""
-                handleClick={() => {}}
-              />;
-            })}
+                isActivetab={activeFilterTab[tab.name]}
+                handleClick={() => handleActiveFilterTab(tab.name)}
+              />
+            ))}
           </motion.div>
         </>
       )}
