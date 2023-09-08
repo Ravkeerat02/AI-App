@@ -1,5 +1,4 @@
-/* eslint-disable react/no-unknown-property */
-import React, { useEffect } from "react";
+import React from "react";
 import { easing } from "maath";
 import { useSnapshot } from "valtio";
 import { useFrame } from "@react-three/fiber";
@@ -9,13 +8,7 @@ import state from "../store";
 
 const Shirt = () => {
   const snap = useSnapshot(state);
-  const { nodes, materials, errors } = useGLTF("/shirt_baked.glb");
-
-  useEffect(() => {
-    if (errors) {
-      console.error("Error loading the model:", errors);
-    }
-  }, [errors]);
+  const { nodes, materials } = useGLTF("/shirt_baked.glb");
 
   const logoTexture = useTexture(snap.logoDecal);
   const fullTexture = useTexture(snap.fullDecal);

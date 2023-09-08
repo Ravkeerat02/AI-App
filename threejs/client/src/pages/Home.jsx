@@ -29,10 +29,9 @@ const Home = () => {
             />
           </motion.header>
           <motion.div className="home-conetent" {...headContainerAnimation}>
-            <motion.div className="home-text" {...headContentAnimation}>
+            <motion.div {...headTextAnimation}>
               <h1 className="head-text">
-                {" "}
-                LETS <br className="xl:block hidden" />
+                TShirt <br className="xl:block hidden" /> Application
               </h1>
             </motion.div>
             <motion.div
@@ -46,7 +45,7 @@ const Home = () => {
               </p>
               <CustomButton
                 type="filled"
-                title="Customize it "
+                title="Customize it"
                 handleClick={() => (state.intro = false)}
                 customStyle="w-fit px-4 py-2.5 font-bold text-sm"
               />

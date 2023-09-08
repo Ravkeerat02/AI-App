@@ -21,23 +21,26 @@ import { fadeAnimation, slideAnimation } from "../config/motion";
 const Customizer = () => {
   const snap = useSnapshot(state);
   const [file, setFile] = useState("");
+  const [prompt, setPrompt] = useState("");
+  const [generatingImg, setGeneratingImg] = useState(false);
   const [activeEditorTab, setActiveEditorTab] = useState("");
   const [activeFilterTab, setActiveFilterTab] = useState({
     logoShirt: true,
     stylistShirt: false,
   });
 
+  // show tab content depending on the activeTab
   const generateTabContent = () => {
     switch (activeEditorTab) {
-      case "colorPicker":
+      case "colorpicker":
         return <ColorPicker />;
-      case "filePicker":
+      case "filepicker":
         return <FilePicker file={file} setFile={setFile} readFile={readFile} />;
       case "aipicker":
         return (
           <AIPicker
             prompt={prompt}
-            setPrompt={prompt}
+            setPrompt={setPrompt}
             generatingImg={generatingImg}
             handleSubmit={handleSubmit}
           />
@@ -53,7 +56,7 @@ const Customizer = () => {
     try {
       // Set the 'generatingImg' state to true
     } catch (error) {
-      alert("Please enter a valid prompt");
+      alert(`Please enter a valid promot ` + error.message);
     } finally {
       setGeneratingImg(false);
       setActiveEditorTab("");
@@ -71,20 +74,21 @@ const Customizer = () => {
   const handleActiveFilterTab = (tabName) => {
     switch (tabName) {
       case "logoShirt":
-        state.isLogoTexture = !activeFilterTab[tabName];
+        state.isLogoTextture = !activeFilterTab[tabName];
         break;
       case "stylishShirt":
         state.isFullTexture = !activeFilterTab[tabName];
         break;
       default:
         state.isFullTexture = true;
-        state.isLogoTexture = false;
+        state.isLogoTextture = false;
+        break;
     }
 
     setActiveFilterTab((prevState) => {
       return {
         ...prevState,
-        [tabName]: activeFilterTab[tabName],
+        [tabName]: !prevState[tabName],
       };
     });
   };
@@ -98,7 +102,7 @@ const Customizer = () => {
 
   return (
     <AnimatePresence>
-      {snap.intro && (
+      {!snap.intro && (
         <>
           <motion.div
             key="custom"
