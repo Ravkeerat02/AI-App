@@ -27,9 +27,12 @@ This project includes the following key features:
 - **Adding Style (Selected) to T-shirt**: A feature that allows users to apply a selected style to a T-shirt model.
 - **Changing Color**: Users can change the color of the displayed object.
 
-## SS
+## Screenshots
 
-[]()
+![Combined](https://github.com/Ravkeerat02/AI-App/blob/main/ss/Combined.jpg)
+
+(Work in Progress - need to adjust the shirt size and implenment the file feature)
+
 
 ## Getting Started
 
