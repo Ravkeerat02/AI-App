@@ -19,6 +19,9 @@ const Shirt = () => {
 
   const stateString = JSON.stringify(snap);
 
+  // Increase the scale factors to make the shirt larger
+  const shirtScale = [1.5, 1.5, 1.5]; // Adjust the values as needed to make it bigger
+
   return (
     <group key={stateString}>
       <mesh

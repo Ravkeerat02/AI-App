@@ -31,7 +31,7 @@ const Home = () => {
           <motion.div className="home-conetent" {...headContainerAnimation}>
             <motion.div {...headTextAnimation}>
               <h1 className="head-text">
-                TShirt <br className="xl:block hidden" /> Application
+                OpenAI <br className="m:block hidden" /> Shirt Designer
               </h1>
             </motion.div>
             <motion.div
