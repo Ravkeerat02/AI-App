@@ -11,19 +11,21 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
+// Define a GET endpoint at "/"
 router.get("/", (req, res) => {
   res.status(200).json({ message: "Hello from DALLE routes" });
 });
 
-router.post("/", async (req, res) => {
+// Define a POST endpoint at "/"
+router.route("/").post(async (req, res) => {
   try {
     const { prompt } = req.body;
 
     // Generate an image using OpenAI API
-    const response = await openai.createImage({
+    const response = await openai.images.generate({
       prompt,
       n: 1,
-      size: "1024X1024",
+      size: "1024x1024",
       response_format: "b64_json",
     });
 

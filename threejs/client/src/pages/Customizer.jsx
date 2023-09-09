@@ -55,6 +55,18 @@ const Customizer = () => {
 
     try {
       // Set the 'generatingImg' state to true
+      setGeneratingImg(true);
+
+      const response = await fetch("http://localhost:3000/api/v1/dalle", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ prompt }),
+      });
+      const data = await response.json();
+      // how and what we want to do with the data
+      handleDecals(type, `data:image/png;base64,${data.photo}`);
     } catch (error) {
       alert(`Please enter a valid promot ` + error.message);
     } finally {
